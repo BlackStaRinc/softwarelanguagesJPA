@@ -28,27 +28,27 @@ public class ProgrammingLanguageController {
     public ProgrammingLanguageController(ProgrammingLanguageService pLanguageService) {
         this.pLanguageService = pLanguageService;
     }
-    @Operation(summary = "{Kayıtlı Tüm Programlama Dillerini Getirir}")
+    @Operation(summary = "{Kayıtlı Tüm Programlama Dillerini Getirir}", tags = "Software Languages Services")
     @GetMapping("/getAll")
     public List<ProgrammingLanguage> getAll(){
         return pLanguageService.getAll();
     }
-    @Operation(summary = "{Id'e Göre Listeden Getirir}")
+    @Operation(summary = "{Id'e Göre Listeden Getirir}", tags = "Software Languages Services")
     @GetMapping("/getId")
     public ProgrammingLanguage getId(@RequestParam int id)throws Exception{
         return this.pLanguageService.getId(id);
     }
-    @Operation(summary = "{Listeye Yeni Kayıt Ekler}")
+    @Operation(summary = "{Listeye Yeni Kayıt Ekler}", tags = "Software Languages Services")
     @PostMapping("/setName")
     public void pLanguageAdd(@RequestBody ProgrammingLanguage pLanguage)throws Exception{
         this.pLanguageService.pLanguageAdd(pLanguage);
     }
-    @Operation(summary = "{Listede Kayıtlı İsmi Günceller}")
+    @Operation(summary = "{Listede Kayıtlı İsmi Günceller}", tags = "Software Languages Services")
     @PutMapping("/updateName")
         public void pLanguageUpdate(@RequestBody ProgrammingLanguage pLanguage) {
             this.pLanguageService.pLanguageUpdate(pLanguage);
     }
-    @Operation(summary = "{Id'e Göre Listeden Kayıt Siler}")
+    @Operation(summary = "{Id'e Göre Listeden Kayıt Siler}", tags = "Software Languages Services")
     @DeleteMapping("/delete")
         public void pLanguageDelete(@RequestParam int id){
             this.pLanguageService.pLanguageDelete(id);

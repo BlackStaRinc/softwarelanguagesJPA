@@ -13,7 +13,7 @@ public class InMemoryProgrammingLanguage implements ProgrammingLanguagesReposito
     List<ProgrammingLanguage> programmingLanguages;
 
     public InMemoryProgrammingLanguage(){
-        programmingLanguages = new ArrayList<ProgrammingLanguage>();
+        programmingLanguages = new ArrayList<>();
 
         programmingLanguages.add(new ProgrammingLanguage(0,"C#"));
         programmingLanguages.add(new ProgrammingLanguage(1,"Java"));

@@ -1,13 +1,9 @@
 package codespring.softwarelanguages.dataAccess.abstracts;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import codespring.softwarelanguages.entities.concretes.ProgrammingLanguage;
+import codespring.softwarelanguages.entities.concretes.ProgrammingLanguages;
 
-public interface ProgrammingLanguagesRepository {
-    List<ProgrammingLanguage> getAll(); 
-    ProgrammingLanguage getId(int id); 
-    void pLanguageAdd(ProgrammingLanguage pLanguage);
-    void pLanguageUpdate(ProgrammingLanguage pLanguage);
-    void pLanguageDelete(int id);
+public interface ProgrammingLanguagesRepository extends JpaRepository<ProgrammingLanguages, Integer> {
+    
 }

@@ -21,7 +21,7 @@ public class ProgrammingManager implements ProgrammingLanguageService{
     @Override
     public List<ProgrammingLanguage> getAll() {
         return pLanguagesRepository.getAll();
-        //deneme branch repo
+        //deneme branch repo jpa
     }
 
     @Override

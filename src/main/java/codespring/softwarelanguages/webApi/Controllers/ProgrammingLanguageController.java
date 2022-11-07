@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import codespring.softwarelanguages.business.abstracts.ProgrammingLanguageService;
-import codespring.softwarelanguages.business.requests.CreateProgLanguageRequest;
-import codespring.softwarelanguages.business.responses.GetAllProgLanguagesResponse;
+import codespring.softwarelanguages.business.requests.CreatePLanguageRequest;
+import codespring.softwarelanguages.business.responses.GetAllPLanguagesResponse;
 import io.swagger.v3.oas.annotations.*;
 
 @RestController
@@ -29,13 +29,13 @@ public class ProgrammingLanguageController {
     
     @Operation(summary = "{Kayıtlı Tüm Programlama Dillerini Getirir}", tags = "Software Languages Services")
     @GetMapping("/getAll")
-    public List<GetAllProgLanguagesResponse> getAll(){
+    public List<GetAllPLanguagesResponse> getAll(){
         return pLanguageService.getAll();
     }
 
     @Operation(summary = "{Listeye Yeni Kayıt Ekler}", tags = "Software Languages Services")
-    @PostMapping("/setName")
-    public void pLanguageAdd(@RequestBody CreateProgLanguageRequest createProgLanguageRequest)throws Exception{
-        this.pLanguageService.pLanguageAdd(createProgLanguageRequest);
+    @PostMapping("/add")
+    public void add(@RequestBody CreatePLanguageRequest createPLanguageRequest)throws Exception{
+        this.pLanguageService.add(createPLanguageRequest);
     }
 }

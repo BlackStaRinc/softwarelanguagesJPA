@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import codespring.softwarelanguages.business.abstracts.ProgrammingTechService;
-import codespring.softwarelanguages.business.requests.CreateProgTechnologyRequest;
-import codespring.softwarelanguages.business.responses.GetAllProgTechnologiesResponse;
+import codespring.softwarelanguages.business.requests.CreatePTechnologyRequest;
+import codespring.softwarelanguages.business.responses.GetAllPTechnologiesResponse;
 import codespring.softwarelanguages.dataAccess.abstracts.ProgrammingLanguagesRepository;
 import codespring.softwarelanguages.dataAccess.abstracts.ProgrammingTechnologiesRepository;
 import codespring.softwarelanguages.entities.concretes.ProgrammingLanguages;
@@ -26,35 +26,38 @@ public class ProgrammingTechManager implements ProgrammingTechService{
     }
 
     @Override
-    public List<GetAllProgTechnologiesResponse> getAllTech() {
-        List<ProgrammingTechnologies> resultProggramingTechnologies = pTechnologiesRepository.findAll();
-        List<GetAllProgTechnologiesResponse> progTechnologiesResponses = new ArrayList<>();
-        for (ProgrammingTechnologies pTechnology : resultProggramingTechnologies) {
-            GetAllProgTechnologiesResponse responseTechnologies = new GetAllProgTechnologiesResponse();
-            responseTechnologies.setId(pTechnology.getId());
-            responseTechnologies.setName(pTechnology.getName());
-            progTechnologiesResponses.add(responseTechnologies);            
+    public List<GetAllPTechnologiesResponse> getAll() {
+        List<ProgrammingTechnologies> rProggramingTechnologies = pTechnologiesRepository.findAll();
+        List<GetAllPTechnologiesResponse> pTechnologiesResponses = new ArrayList<>();
+        for (ProgrammingTechnologies pTechnology : rProggramingTechnologies) {
+            GetAllPTechnologiesResponse rTechnologies = new GetAllPTechnologiesResponse();
+            ProgrammingLanguages pLanguages = pLanguagesRepository.getReferenceById(pTechnology.getProgrammingLanguages().getId());
+            rTechnologies.setId(pTechnology.getId());
+            rTechnologies.setName(pTechnology.getName());
+            rTechnologies.setProgrammingLanguage(pLanguages.getName());
+            pTechnologiesResponses.add(rTechnologies);            
         }
-        return progTechnologiesResponses;
+        return pTechnologiesResponses;
     }
     
     @Override
-    public void pTechnologyAdd(CreateProgTechnologyRequest createProgTechnologyRequest) throws Exception {
-        ProgrammingTechnologies programmingTechnology = new ProgrammingTechnologies();
-        ProgrammingLanguages programmingLanguages = pLanguagesRepository.getReferenceById(createProgTechnologyRequest.getP_lang_id());
-        programmingTechnology.setName(createProgTechnologyRequest.getName());
+    public void add(CreatePTechnologyRequest createPTechnologyRequest) throws Exception {
+        ProgrammingTechnologies pTechnology = new ProgrammingTechnologies();
+        ProgrammingLanguages pLanguages = pLanguagesRepository.getReferenceById(createPTechnologyRequest.getProgramming_language_id());
+        pTechnology.setName(createPTechnologyRequest.getName());
+        pTechnology.setProgrammingLanguages(pLanguages);
 
-         if (pTechControl(createProgTechnologyRequest)) {
+         if (pTechControl(createPTechnologyRequest)) {
             throw new Exception("Programlama Dili Aynı veya Boş Olamaz");
         }
-        this.pTechnologiesRepository.save(programmingTechnology);
+        this.pTechnologiesRepository.save(pTechnology);
     }
 
-    public boolean pTechControl(CreateProgTechnologyRequest createProgTechnologyRequest){
+    public boolean pTechControl(CreatePTechnologyRequest createPTechnologyRequest){
         List<ProgrammingTechnologies> pTechnologies = pTechnologiesRepository.findAll();
-        for (ProgrammingTechnologies programmingTechnology : pTechnologies) {
-            if (programmingTechnology.getName().equalsIgnoreCase(createProgTechnologyRequest.getName()) 
-            || createProgTechnologyRequest.getName().equals("")) {
+        for (ProgrammingTechnologies pTechnology : pTechnologies) {
+            if (pTechnology.getName().equalsIgnoreCase(createPTechnologyRequest.getName()) 
+            || createPTechnologyRequest.getName().equals("")) {
                 return true;
             }
         }

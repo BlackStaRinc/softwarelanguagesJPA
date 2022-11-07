@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import codespring.softwarelanguages.business.abstracts.ProgrammingLanguageService;
-import codespring.softwarelanguages.business.requests.CreateProgLanguageRequest;
-import codespring.softwarelanguages.business.responses.GetAllProgLanguagesResponse;
+import codespring.softwarelanguages.business.requests.CreatePLanguageRequest;
+import codespring.softwarelanguages.business.responses.GetAllPLanguagesResponse;
 import codespring.softwarelanguages.dataAccess.abstracts.ProgrammingLanguagesRepository;
 import codespring.softwarelanguages.entities.concretes.ProgrammingLanguages;
 
@@ -22,33 +22,33 @@ public class ProgrammingManager implements ProgrammingLanguageService{
     }
 
     @Override
-    public List<GetAllProgLanguagesResponse> getAll() {
-        List<ProgrammingLanguages> resultProggramingLanguages = pLanguagesRepository.findAll();
-        List<GetAllProgLanguagesResponse> progLanguagesResponses = new ArrayList<>();
-        for (ProgrammingLanguages pLanguage : resultProggramingLanguages) {
-            GetAllProgLanguagesResponse responseLanguages = new GetAllProgLanguagesResponse();
-            responseLanguages.setId(pLanguage.getId());
-            responseLanguages.setName(pLanguage.getName());
-            progLanguagesResponses.add(responseLanguages);            
+    public List<GetAllPLanguagesResponse> getAll() {
+        List<ProgrammingLanguages> rProggramingLanguages = pLanguagesRepository.findAll();
+        List<GetAllPLanguagesResponse> pLanguagesResponses = new ArrayList<>();
+        for (ProgrammingLanguages pLanguage : rProggramingLanguages) {
+            GetAllPLanguagesResponse rLanguages = new GetAllPLanguagesResponse();
+            rLanguages.setId(pLanguage.getId());
+            rLanguages.setName(pLanguage.getName());
+            pLanguagesResponses.add(rLanguages);            
         }
-        return progLanguagesResponses;
+        return pLanguagesResponses;
     }
     
     @Override
-    public void pLanguageAdd(CreateProgLanguageRequest createProgLanguageRequest) throws Exception {
-        ProgrammingLanguages programmingLanguage = new ProgrammingLanguages();
-        programmingLanguage.setName(createProgLanguageRequest.getName());
-         if (pLangControl(createProgLanguageRequest)) {
+    public void add(CreatePLanguageRequest createPLanguageRequest) throws Exception {
+        ProgrammingLanguages pLanguage = new ProgrammingLanguages();
+        pLanguage.setName(createPLanguageRequest.getName());
+         if (pLangControl(createPLanguageRequest)) {
             throw new Exception("Programlama Dili Aynı veya Boş Olamaz");
         }
-        this.pLanguagesRepository.save(programmingLanguage);
+        this.pLanguagesRepository.save(pLanguage);
     }
 
-    public boolean pLangControl(CreateProgLanguageRequest createProgLanguageRequest){
+    public boolean pLangControl(CreatePLanguageRequest createPLanguageRequest){
         List<ProgrammingLanguages> pLanguages = pLanguagesRepository.findAll();
-        for (ProgrammingLanguages programmingLanguage : pLanguages) {
-            if (programmingLanguage.getName().equalsIgnoreCase(createProgLanguageRequest.getName()) 
-            || createProgLanguageRequest.getName().equals("")) {
+        for (ProgrammingLanguages pLanguage : pLanguages) {
+            if (pLanguage.getName().equalsIgnoreCase(createPLanguageRequest.getName()) 
+            || createPLanguageRequest.getName().equals("")) {
                 return true;
             }
         }

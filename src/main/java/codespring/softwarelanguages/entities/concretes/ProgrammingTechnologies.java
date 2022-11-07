@@ -34,8 +34,8 @@ public class ProgrammingTechnologies {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="p_lang_id")
+    @ManyToOne()
+    @JoinColumn(name="programmingLanguageId")
     private ProgrammingLanguages programmingLanguages;
 }
 

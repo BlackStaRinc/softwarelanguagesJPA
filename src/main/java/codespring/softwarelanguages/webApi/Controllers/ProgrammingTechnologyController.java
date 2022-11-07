@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import codespring.softwarelanguages.business.abstracts.ProgrammingTechService;
-import codespring.softwarelanguages.business.requests.CreateProgTechnologyRequest;
-import codespring.softwarelanguages.business.responses.GetAllProgTechnologiesResponse;
+import codespring.softwarelanguages.business.requests.CreatePTechnologyRequest;
+import codespring.softwarelanguages.business.responses.GetAllPTechnologiesResponse;
 
 import io.swagger.v3.oas.annotations.*;
 
 @RestController
-@RequestMapping("/api/PTech")
+@RequestMapping("/api/PTechnologies")
 public class ProgrammingTechnologyController {
 
     private ProgrammingTechService pTechnologyService;
@@ -28,14 +28,14 @@ public class ProgrammingTechnologyController {
     }
 
     @Operation(summary = "{Kayıtlı Tüm Programlama Teknolojilerini Getirir}", tags = "Software Technologies Services")
-    @GetMapping("/getAllTech")
-    public List<GetAllProgTechnologiesResponse> getAllTech(){
-        return pTechnologyService.getAllTech();
+    @GetMapping("/getAll")
+    public List<GetAllPTechnologiesResponse> getAll(){
+        return pTechnologyService.getAll();
     }
     @Operation(summary = "{Listeye Yeni Kayıt Ekler}", tags = "Software Technologies Services")
-    @PostMapping("/setTechName")
-    public void pTechAdd(@RequestBody CreateProgTechnologyRequest createProgTechnologyRequest)throws Exception{
-        this.pTechnologyService.pTechnologyAdd(createProgTechnologyRequest);
+    @PostMapping("/add")
+    public void add(@RequestBody CreatePTechnologyRequest createPTechnologyRequest)throws Exception{
+        this.pTechnologyService.add(createPTechnologyRequest);
     }
  
 }

@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 
 import codespring.softwarelanguages.business.abstracts.ProgrammingLanguageService;
 import codespring.softwarelanguages.business.requests.CreatePLanguageRequest;
+import codespring.softwarelanguages.business.requests.DeletePLanguageRequest;
+import codespring.softwarelanguages.business.requests.UpdatePLanguageRequest;
 import codespring.softwarelanguages.business.responses.GetAllPLanguagesResponse;
+import codespring.softwarelanguages.business.responses.GetIdPLanguagesResponse;
 import codespring.softwarelanguages.dataAccess.abstracts.ProgrammingLanguagesRepository;
 import codespring.softwarelanguages.entities.concretes.ProgrammingLanguages;
 
@@ -54,21 +57,44 @@ public class ProgrammingManager implements ProgrammingLanguageService{
         }
         return false;
     }
-    /* 
+
     @Override
-    public ProgrammingLanguage getId(int id) throws Exception {
-        return this.pLanguagesRepository.getId(id);
+    public GetIdPLanguagesResponse getId(int id){
+        ProgrammingLanguages pLanguages = pLanguagesRepository.getReferenceById(id);
+        GetIdPLanguagesResponse gIdPLanguagesResponse = new GetIdPLanguagesResponse();
+        gIdPLanguagesResponse.setId(pLanguages.getId());
+        gIdPLanguagesResponse.setName(pLanguages.getName());
+
+        return gIdPLanguagesResponse;
     }
 
     @Override
-    public void pLanguageUpdate(ProgrammingLanguage pLanguage) {
-       this.pLanguagesRepository.pLanguageUpdate(pLanguage);
+    public void update(UpdatePLanguageRequest updatePLanguageRequest) throws Exception {
+        ProgrammingLanguages pLanguage = new ProgrammingLanguages();
+        pLanguage.setName(updatePLanguageRequest.getName());
+        pLanguage.setId(updatePLanguageRequest.getId());
+         if (pLangControl(updatePLanguageRequest)) {
+            throw new Exception("Programlama Dili Aynı veya Boş Olamaz");
+        }
+        this.pLanguagesRepository.save(pLanguage);
+    }
+
+    private boolean pLangControl(UpdatePLanguageRequest updatePLanguageRequest) {
+        List<ProgrammingLanguages> pLanguages = pLanguagesRepository.findAll();
+        for (ProgrammingLanguages pLanguage : pLanguages) {
+            if (pLanguage.getName().equalsIgnoreCase(updatePLanguageRequest.getName()) 
+            || updatePLanguageRequest.getName().equals("")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
-    public void pLanguageDelete(int id){
-       this.pLanguagesRepository.pLanguageDelete(id);
+    public void delete(DeletePLanguageRequest deletePLanguageRequest) {
+        ProgrammingLanguages pLanguages = new ProgrammingLanguages();
+        pLanguages.setId(deletePLanguageRequest.getId());
+        pLanguagesRepository.delete(pLanguages);
     }
-    */
 
 }

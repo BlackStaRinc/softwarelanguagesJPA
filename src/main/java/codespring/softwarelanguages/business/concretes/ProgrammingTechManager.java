@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 
 import codespring.softwarelanguages.business.abstracts.ProgrammingTechService;
 import codespring.softwarelanguages.business.requests.CreatePTechnologyRequest;
+import codespring.softwarelanguages.business.requests.DeletePTechnologyRequest;
+import codespring.softwarelanguages.business.requests.UpdatePTechnologyRequest;
 import codespring.softwarelanguages.business.responses.GetAllPTechnologiesResponse;
+import codespring.softwarelanguages.business.responses.GetIdPTechnologiesResponse;
 import codespring.softwarelanguages.dataAccess.abstracts.ProgrammingLanguagesRepository;
 import codespring.softwarelanguages.dataAccess.abstracts.ProgrammingTechnologiesRepository;
 import codespring.softwarelanguages.entities.concretes.ProgrammingLanguages;
@@ -43,7 +46,7 @@ public class ProgrammingTechManager implements ProgrammingTechService{
     @Override
     public void add(CreatePTechnologyRequest createPTechnologyRequest) throws Exception {
         ProgrammingTechnologies pTechnology = new ProgrammingTechnologies();
-        ProgrammingLanguages pLanguages = pLanguagesRepository.getReferenceById(createPTechnologyRequest.getProgramming_language_id());
+        ProgrammingLanguages pLanguages = pLanguagesRepository.getReferenceById(createPTechnologyRequest.getProgrammingLanguageId());
         pTechnology.setName(createPTechnologyRequest.getName());
         pTechnology.setProgrammingLanguages(pLanguages);
 
@@ -62,6 +65,54 @@ public class ProgrammingTechManager implements ProgrammingTechService{
             }
         }
         return false;
+    }
+
+    @Override
+    public GetIdPTechnologiesResponse getId(int id){
+        ProgrammingTechnologies pTechnologies = pTechnologiesRepository.getReferenceById(id);
+        GetIdPTechnologiesResponse getIdPTechnologiesResponse = new GetIdPTechnologiesResponse();
+        getIdPTechnologiesResponse.setId(pTechnologies.getId());
+        getIdPTechnologiesResponse.setName(pTechnologies.getName());
+
+        return getIdPTechnologiesResponse;
+    }
+
+    @Override
+    public void update(UpdatePTechnologyRequest updatePTechnologyRequest) throws Exception {
+
+        ProgrammingLanguages pLanguages = pLanguagesRepository.getReferenceById(updatePTechnologyRequest.getProgrammingLanguageId());
+
+        ProgrammingTechnologies pTechnologies = new ProgrammingTechnologies();
+        pTechnologies.setId(updatePTechnologyRequest.getId());
+        pTechnologies.setName(updatePTechnologyRequest.getName());
+        pTechnologies.setProgrammingLanguages(pLanguages);
+
+         if (pLangControl(updatePTechnologyRequest)) {
+            throw new Exception("Programlama Dili Aynı veya Boş Olamaz");
+        }
+
+        ProgrammingTechnologies upTechnologies = pTechnologiesRepository.getReferenceById(pTechnologies.getId());
+		upTechnologies.setName(pTechnologies.getName());
+		upTechnologies.setProgrammingLanguages(pLanguages);
+		pTechnologiesRepository.save(upTechnologies);
+    }
+
+    private boolean pLangControl(UpdatePTechnologyRequest updatePTechnologyRequest) {
+        List<ProgrammingTechnologies> pTechnologies = pTechnologiesRepository.findAll();
+        for (ProgrammingTechnologies pTechnology : pTechnologies) {
+            if (pTechnology.getName().equalsIgnoreCase(updatePTechnologyRequest.getName()) 
+            || updatePTechnologyRequest.getName().equals("")) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    @Override
+    public void delete(DeletePTechnologyRequest deletePTechnologyRequest) {
+        ProgrammingTechnologies pTechnologies = new ProgrammingTechnologies();
+        pTechnologies.setId(deletePTechnologyRequest.getId());
+        pTechnologiesRepository.delete(pTechnologies);
     }
 
 }

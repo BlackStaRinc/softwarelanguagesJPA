@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreatePTechnologyRequest {
-    private String name;
-    private int programmingLanguageId;
+public class DeletePTechnologyRequest {
+    private int id;
 }
